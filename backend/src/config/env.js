@@ -3,7 +3,7 @@ const path = require('path');
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
-const required  = ["MONGO_URI", "JWT_SECRET", "JWT_EXPIRES_IN", "COOCKIE_NAME", "CLIENT_ORIGIN", "GEMINI_API_KEY", "GEMINI_MODEL"];
+const required  = ["MONGO_URI", "JWT_SECRET", "JWT_EXPIRES_IN", "COOCKIE_NAME", "GEMINI_API_KEY", "GEMINI_MODEL"];
 const missing = required.filter((key) => !process.env[key]);
 if (missing.length > 0) {
     console.error(`Missing required environment variables: ${missing.join(', ')}`);
