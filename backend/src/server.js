@@ -8,7 +8,9 @@ const env = require('./config/env');
 //const {connectDB} = require('./config/db');
 const {notFound, errorHandler} = require('./middleware/errorHandler');
 
-const healthRoutes = require('./routes/health');
+const healthRouter = require('./routes/health');
+const authRouter = require("./routes/auth");
+
 
 const app = express();
 
@@ -26,7 +28,9 @@ if (env.isDev) {
     app.use(morgan('dev'));
 }
 
-app.use('/api/health', healthRoutes);
+app.use('/api/health', healthRouter);
+app.use("/api/auth",authRouter);
+
 app.use(notFound);
 app.use(errorHandler);
 

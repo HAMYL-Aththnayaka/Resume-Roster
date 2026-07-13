@@ -11,10 +11,10 @@ function verifytoken(token){
 
 const coockieOptions = {
     httpOnly: true,
-    secure: env.isProd, // Set to true in production
-    sameSite: env.isProd ? 'None' : 'Lax', // Adjust based on your needs
-    maxAge: env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000, // Convert days to milliseconds
-    path: '/', // Set the path for the cookie
+    secure: env.isProd,
+    sameSite: env.isProd ? "None" : "Lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    path: "/",
 };
 
 module.exports = {
