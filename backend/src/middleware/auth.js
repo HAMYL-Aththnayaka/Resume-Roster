@@ -1,5 +1,5 @@
 const env = require('../config/env');
-const {verifyToken} = require("../utils/jwt");
+const {verifytoken} = require("../utils/jwt");
 const ApiError = require("../utils/apiError");
 const User = require("../models/User");
 
@@ -10,7 +10,7 @@ async function requireAuth(req,res , next){
             throw  new ApiError.unauthorized();
         }
 
-        const payload = verifyToken(token);
+        const payload = verifytoken(token);
         const user = await User.findById(payload.sub);
         if(!user){
             throw ApiError.unauthorized("Session no longer valid");
