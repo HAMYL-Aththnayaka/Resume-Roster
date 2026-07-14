@@ -137,3 +137,6 @@ const resumeVersionSchema = new mongoose.Schema({
         default:null
     } 
 },{timestamp:true});
+
+resumeVersionSchema.index({resumeId:1},{unique:true});
+module.exports = mongoose.model("resumeVersion",resumeVersionSchema);
