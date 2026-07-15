@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import AILogo from "@/components/layout/AILogo";
+import LOGO from "../../assets/Logo.png"
 
 function GithubIcon(props) {
   return (
@@ -117,6 +118,7 @@ export function Footer() {
 
         <div className="mt-10 pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-[var(--ink-muted)]">
           <div>© 2026 Resume Roaster. All rights reserved.</div>
+         <img src={LOGO} width="200px" className="absolute left-1/2 -translate-x-1/2" alt="Resume Roaster logo" />
           <div className="flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--success)] animate-pulse" />
             All systems operational
