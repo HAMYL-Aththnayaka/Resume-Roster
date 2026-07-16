@@ -106,7 +106,6 @@ const resumeVersionSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"Resume",
         required:true,
-        index:true,
     },
     versionNumber:{
         type:Number,
