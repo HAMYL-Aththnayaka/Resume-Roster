@@ -19,7 +19,10 @@ const healthRouter = require('./routes/health');
 const authRouter = require("./routes/auth");
 const resumeRouter = require("./routes/resumes");
 
-
+const dashBoardRouter = require("./routes/dashboard");
+const insightRouter = require("./routes/insights");
+const versionRouter = require("./routes/versions");
+const historyRouter = require("./routes/history");
 
 const app = express();
 
@@ -40,6 +43,10 @@ if (env.isDev) {
 app.use('/api/health', healthRouter);
 app.use("/api/auth",authRouter);
 app.use("/api/resumes",resumeRouter);
+app.use("/api/dashboard",dashBoardRouter);
+app.use("/api/insights",insightRouter);
+app.use("/api/versions",versionRouter);
+app.use("/api/history",historyRouter);
 
 app.use(notFound);
 app.use(errorHandler);
