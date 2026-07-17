@@ -6,9 +6,9 @@ const MAX_BYTES = 5*1024*1024 // mgeabites 5
 const upload = multer({
     storage :multer.memoryStorage(),
     limits:{fileSize:MAX_BYTES,files:1},
-    fileFilter :(req ,res,cb)=>{
-        if(file.mimetype !== "application/pd"){
-            return cb(ApiError.badRequest("Only PDF files are accepted"));
+    fileFilter :(req ,file,cb)=>{
+        if(file.mimetype !== "application/pdf"){
+            return cb(ApiError.badRequest("Only PDF files are accepted"),false);
         }
         cb(null,true);
     },

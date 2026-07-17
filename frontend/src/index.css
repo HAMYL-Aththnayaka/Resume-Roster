@@ -26,42 +26,57 @@
 
 :root,
 [data-theme="light"] {
-  --bg: #f4f4f0;
+  --bg: #eef7ff;
   --surface: #ffffff;
-  --surface-2: #fafaf7;
-  --border: rgba(15, 17, 21, 0.06);
-  --ink: #0f1115;
-  --ink-muted: #6b7280;
-  --accent: #5b7c6a;
-  --accent-strong: #2f4a3a;
-  --accent-soft: #e6efe8;
-  --accent-hero: #2f4a3a;
-  --accent-hero-2: #436354;
-  --success: #4a7a5d;
-  --warning: #c28a3a;
-  --danger: #b5564e;
-  --shadow-card: 0 1px 3px rgba(15, 17, 21, 0.04),
-    0 1px 2px rgba(15, 17, 21, 0.03);
-  --shadow-hover: 0 6px 20px rgba(15, 17, 21, 0.06);
+  --surface-2: #f7fbff;
+
+  --border: rgba(59, 130, 246, 0.12);
+
+  --ink: #16324f;
+  --ink-muted: #5f7d95;
+
+  --accent: #60a5fa;
+  --accent-strong: #2563eb;
+  --accent-soft: #dbeafe;
+
+  --accent-hero: #2563eb;
+  --accent-hero-2: #3b82f6;
+
+  --success: #38bdf8;
+  --warning: #7dd3fc;
+  --danger: #f87171;
+
+  --shadow-card: 0 2px 8px rgba(37, 99, 235, 0.08),
+    0 1px 3px rgba(37, 99, 235, 0.05);
+
+  --shadow-hover: 0 10px 28px rgba(37, 99, 235, 0.15);
 }
 
 [data-theme="dark"] {
-  --bg: #0f1115;
-  --surface: #16181d;
-  --surface-2: #1b1e24;
-  --border: rgba(255, 255, 255, 0.06);
-  --ink: #f2f2ee;
-  --ink-muted: #9aa0a6;
-  --accent: #8fb39c;
-  --accent-strong: #b6cfc0;
-  --accent-soft: rgba(143, 179, 156, 0.12);
-  --accent-hero: #1e3024;
-  --accent-hero-2: #2a4234;
-  --success: #8fb39c;
-  --warning: #d4a86a;
-  --danger: #d4847c;
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.35);
+  --bg: #0b1220;
+  --surface: #111c2f;
+  --surface-2: #17253d;
+
+  --border: rgba(96, 165, 250, 0.12);
+
+  --ink: #eff6ff;
+  --ink-muted: #a5c5e8;
+
+  --accent: #60a5fa;
+  --accent-strong: #93c5fd;
+  --accent-soft: rgba(96, 165, 250, 0.12);
+
+  --accent-hero: #1d4ed8;
+  --accent-hero-2: #2563eb;
+
+  --success: #38bdf8;
+  --warning: #7dd3fc;
+  --danger: #f87171;
+
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.35),
+    0 1px 3px rgba(0, 0, 0, 0.25);
+
+  --shadow-hover: 0 12px 32px rgba(37, 99, 235, 0.25);
 }
 
 html,

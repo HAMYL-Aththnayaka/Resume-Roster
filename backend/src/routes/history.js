@@ -20,9 +20,15 @@ router.get(
         const resumeIds = resumes.map((r)=>r._id);
         const resumeMap = new Map(resumes.map((r)=>[r._id.toString() ,r]));
 
-        const [versions , analyses ] = await Promise.all([
-            ResumeVersion.find({resumeId:{$in:resumeIds}}).select("_id resumeId label versionNumber sourceType createdAt").lean(),
-        ]);
+        const [versions, analyses] = await Promise.all([
+    ResumeVersion.find({
+        resumeId: { $in: resumeIds }
+    }).select("_id resumeId label versionNumber sourceType createdAt").lean(),
+
+    Analysis.find({
+        userId
+    }).select("_id resumeId atsScore createdAt").lean()
+]);
 
         const events =[];
 
@@ -55,7 +61,7 @@ router.get(
                 resumeTitle:resume?.title || "Resume",
             });
         }
-        events.sort((a,b) => new Data(b.at) - new Data(a.at));
+        events.sort((a,b) => new Date(b.at) - new Date(a.at));
 
         const totals ={
             all:events.length,

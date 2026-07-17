@@ -24,7 +24,7 @@ router.get("/",
             Analysis.countDocuments({ userId }),
         ]);
 
-        const latestResumeMeta = resume[0] || null;
+        const latestResumeMeta = resumes[0] || null;
 
         let latestResume = null;
         let scoreSeries = [];
@@ -102,7 +102,7 @@ router.get("/",
                 spark : scoreSpark,
             },
             versions:{
-                value:resume.reduce((sum , r)=> sum + (r.latestVersionNumber || 1),0),
+                value:resumes.reduce((sum , r)=> sum + (r.latestVersionNumber || 1),0),
                 delta:null,
                 spark:versionSpark,
             },
@@ -128,7 +128,7 @@ router.get("/",
             events.push({
                 is:`r-${r._id}`,
                 type:`upload`,
-                title:`${t.title} uploaded`,
+                title:`${r.title} uploaded`,
                 subtitle:"parsed and version V1 created",
                 label:"v1",
                 at:r.createdAt,
@@ -164,7 +164,7 @@ router.get("/",
                 resumeId:a.resumeId,
             });
         }
-        const activity =events.sort((a,b)=>new Data(b.at) - new Data(a.at)).slive(0,8);
+        const activity =events.sort((a,b)=>new Date(b.at) - new Date(a.at)).slice(0,8);
 
         res.json({
             totals:{

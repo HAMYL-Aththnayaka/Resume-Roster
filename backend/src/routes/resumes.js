@@ -39,7 +39,7 @@ async function loadOwnedResume(req) {
 
 async function loadVersion(resumeId, versionId) {
     const version = await ResumeVersion.findOne({ _id: versionId, resumeId });
-    if (!vesion) {
+    if (!version) {
 
         throw ApiError.notFound("Version not found");
     }
@@ -55,7 +55,7 @@ router.post("/", uploadPdf("file"), asyncHandler(async (req, res) => {
         "Untitled Resume";
 
     const resume = await Resume.create({
-        userId: req.user, _id,
+        userId: req.user._id,
         title,
         latestVersionNumber: 1,
     });
@@ -86,8 +86,13 @@ router.get("/",
 router.get("/:id",
     validate(idParam, "params"), asyncHandler(async (req, res) => {
         const resume = await loadOwnedResume(req);
-        const version = (await ResumeVersion.find({ resumeId: resume._id })).sort({ versionNumber: 1 }).select("-rawText").lean();
-        res.json({ resume, version });
+        const versions = await ResumeVersion.find({
+            resumeId: resume._id
+        })
+            .sort({ versionNumber: 1 })
+            .select("-rawText")
+            .lean();
+        res.json({ resume, versions });
     })
 );
 
@@ -246,63 +251,63 @@ router.post("/:id/rewrites",
         const selected = req.body.rewriteIds?.length ?
             analysis.bulletRewrites.filter((r) =>
                 req.body.rewriteIds.includes(r._id.toString())
-        ) : analysis.bulletReWrites ;    
-        
-        if(!selected.length){
+            ) : analysis.bulletReWrites;
+
+        if (!selected.length) {
             throw ApiERror.badRequest("NO rewrites selected to apply");
         }
 
-        const newRaw = applyRewritesToText(baseVersion.rawText,selected);
-    
+        const newRaw = applyRewritesToText(baseVersion.rawText, selected);
+
         const patchedFromBase = patchBulletsInSections(
             baseVersion.parsedSections,
             selected
         );
         const reparsed = await parseStructured(newRaw);
-        const finalParsed = looksEmpty(reparsed) ? patchedFromBase :reparsed;
-        
-        const nextNumber = resume.latestVersionNumber +1;
+        const finalParsed = looksEmpty(reparsed) ? patchedFromBase : reparsed;
+
+        const nextNumber = resume.latestVersionNumber + 1;
         const newVersion = await ResumeVersion.create({
-            resumeId:resume._id,
-            versionNumber:nextNumber,
-            label:req.body.label?.trim() || `V${nextNumber}`,
-            rawText : newRaw,
-            parsedSections:finalParsed,
-            sourceTpe:"rewrite",
-            parentVersionId:baseVersion._id,
+            resumeId: resume._id,
+            versionNumber: nextNumber,
+            label: req.body.label?.trim() || `V${nextNumber}`,
+            rawText: newRaw,
+            parsedSections: finalParsed,
+            sourceTpe: "rewrite",
+            parentVersionId: baseVersion._id,
         });
 
         resume.latestVersionNumber = nextNumber;
         resume.currentVersionId = newVersion._id;
         await resume.save();
-    
+
         res.status(201).json({
-            version:newVersion,
-            appliedCount:selected.length,
+            version: newVersion,
+            appliedCount: selected.length,
         });
     })
 );
 
 const diffQuery = z.object({
-    from:objectSchema,
-    to:objectSchema,
-    mode:z.enum(["words","lines"]).optional(),
+    from: objectSchema,
+    to: objectSchema,
+    mode: z.enum(["words", "lines"]).optional(),
 });
 
-router.get("/:id/diff",validate(idParam,"params"),validate(diffQuery,"query")
-,asyncHandler(async (req,res)=>{
-    const resume = await Promise.all([
-        loadVersion(resume._id,req.query.from),
-        loadVersion(resume._id,req.query.to),
-    ]);
+router.get("/:id/diff", validate(idParam, "params"), validate(diffQuery, "query")
+    , asyncHandler(async (req, res) => {
+        const resume = await Promise.all([
+            loadVersion(resume._id, req.query.from),
+            loadVersion(resume._id, req.query.to),
+        ]);
 
-    const parts = diffText(fromB.rawText,toV.rawText,req.query.mode);
-    res.json({
-        from:{id:fromV._id, label:fromV.label,versionNumber:fromV.versionNumber},
-        tp:{id:toV._id,label:toV.lable,versionNumber:toV.versionNumber},
-        parts,
-        stats:summerize(parts),
-    });
-}))
+        const parts = diffText(fromB.rawText, toV.rawText, req.query.mode);
+        res.json({
+            from: { id: fromV._id, label: fromV.label, versionNumber: fromV.versionNumber },
+            tp: { id: toV._id, label: toV.lable, versionNumber: toV.versionNumber },
+            parts,
+            stats: summerize(parts),
+        });
+    }))
 
 module.exports = router;

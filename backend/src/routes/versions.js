@@ -46,7 +46,8 @@ router.get("/",asynchandler(async(req,res)=>{
     };
     res.json({
         versions:items,
-        totals
+        total
+
     });
 }));
 
